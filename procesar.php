@@ -1,9 +1,17 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nombre = $_POST["nombre"];
-    $correo = $_POST["correo"];
-    $telefono = $_POST["telefono"];
-    $mensaje = $_POST["mensaje"];
+    // Recoge los datos del formulario
+    $nombre = isset($_POST["nombre"]) ? $_POST["nombre"] : '';
+    $correo = isset($_POST["correo"]) ? $_POST["correo"] : '';
+    $telefono = isset($_POST["telefono"]) ? $_POST["telefono"] : '';
+    $mensaje = isset($_POST["mensaje"]) ? $_POST["mensaje"] : '';
+
+    // Validar que todos los campos necesarios estén presentes
+    if (empty($nombre) || empty($correo) || empty($telefono) || empty($mensaje)) {
+        // Puedes redirigir a una página de error o mostrar un mensaje de error
+        header("Location: error.html");
+        exit();
+    }
 
     $destinatario = "lechuzasoluciones@gmail.com"; // Reemplaza con la dirección de correo donde deseas recibir los mensajes.
 
@@ -18,14 +26,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (mail($destinatario, $asunto, $contenido)) {
         // Si el correo se envió correctamente, redirige a la página de confirmación
         header("Location: index.html");
-        exit(); // Detener la ejecución después de la redirección
     } else {
         // Si el envío del correo falla, registra el error
         error_log("Error al enviar el correo.");
-        // También podrías redirigir a una página de error o mostrar un mensaje
-        header("Location: error.html"); // Esto es opcional si tienes una página de error
-        exit();
+        // Redirige a una página de error o muestra un mensaje de error
+        header("Location: error.html");
     }
+    exit(); // Es recomendable agregar exit después de header para evitar ejecutar más código
 } else {
     // Si se intenta acceder directamente a este archivo sin enviar el formulario, redirige al formulario.
     header("Location: index.html");
