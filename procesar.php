@@ -7,9 +7,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $destinatario = "lechuzasoluciones@gmail.com"; // Reemplaza con la dirección de correo donde deseas recibir los mensajes.
 
-    $asunto = "Mensaje de contacto de $nombre ";
+    $asunto = "Mensaje de contacto de $nombre";
 
-    $contenido = "Nombre: $nombre \n";
+    $contenido = "Nombre: $nombre\n";
     $contenido .= "Correo Electrónico: $correo\n";
     $contenido .= "Teléfono: $telefono\n";
     $contenido .= "Mensaje:\n$mensaje";
@@ -18,9 +18,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     mail($destinatario, $asunto, $contenido);
 
     // Redirecciona a una página de confirmación
-    header(Location: index.html);
+    header("Location: index.html");
+    exit(); // Es recomendable agregar exit después de header
 } else {
     // Si se intenta acceder directamente a este archivo sin enviar el formulario, redirige al formulario.
-    header(Location: index.html);
+    header("Location: index.html");
+    exit();
 }
 ?>
